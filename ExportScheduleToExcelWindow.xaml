@@ -1,0 +1,103 @@
+﻿<Window x:Name="MainWindow" x:Class="QApps.ExportScheduleToExcelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:item="clr-namespace:QApps"
+        mc:Ignorable="d"
+        xmlns:qApps="clr-namespace:QApps"
+        
+        Title="Export Schedule to Excel" ResizeMode="CanResize" 
+        ShowInTaskbar="True" WindowStartupLocation="CenterScreen"
+        Height="599.2" Width="351.267" MinHeight="400 " MinWidth="500"
+        Topmost="False"
+        >
+
+    <FrameworkElement.Resources>
+        <ResourceDictionary Source="../WPF/Resource/Styles.xaml" />
+    </FrameworkElement.Resources>
+
+
+    <DockPanel LastChildFill="True" >
+        <DockPanel 
+            DockPanel.Dock="Top" LastChildFill="True">
+            <TextBlock DockPanel.Dock="Left" 
+                       Text="Export Folder" />
+            <TextBox Text="{Binding ExportExcelFolderPath}"
+                     Style="{DynamicResource TextBoxStyle}"
+                     Height="33" 
+                     MouseDoubleClick="TextBox_MouseDoubleClick"
+                     HorizontalContentAlignment="Left" />
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Bottom" Height="40" >
+            <RadioButton DockPanel.Dock="Left"
+                         GroupName="y"
+                         Content="Multi Files"
+                         Style="{DynamicResource RadioButtonStyle}"
+                            IsChecked="{Binding IsMultiWorkbooks}"
+                         />
+            <RadioButton DockPanel.Dock="Left"
+                      GroupName="y"
+                         IsChecked="{Binding IsOneWorkbook}"
+                      Content="Combine Files"
+                      Style="{DynamicResource RadioButtonStyle}" />
+            
+            <Button DockPanel.Dock="Right"
+                    Content="Close"
+                    Width="100"
+                    Click="btnCancel_Click"
+                    Style="{DynamicResource ButtonStyle}"
+                    IsCancel="True" />
+            <Button DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Content="Export"
+                    Width="100"
+                    IsDefault="True"
+                    Click="btnOk_Click"
+                    Style="{DynamicResource ButtonStyle}" />
+        </DockPanel>
+
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding AllViewSchedules}"
+                   qApps:CustomDataGrid.SelectedItems
+                          ="{Binding SelectedViewSchedules}"
+                  Style="{DynamicResource DataGridStyle}"
+                  AutoGenerateColumns="False"
+                  MinHeight="300" 
+                  MaxHeight="550"
+                  ColumnWidth="*">
+
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Header="Schedule Name"
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="qApps:ViewScheduleExtension">
+                            <TextBlock HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding ViewScheduleName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Is Export"
+                                        Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="qApps:ViewScheduleExtension">
+                            <CheckBox IsChecked="{Binding IsExport}"
+                                              Style="{DynamicResource CheckBoxStyle}"
+                                              HorizontalAlignment="Center"
+                                              Click="IsExportClick" 
+                                              />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </DockPanel>
+
+</Window>
